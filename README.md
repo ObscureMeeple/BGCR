@@ -1,0 +1,2 @@
+# BGCR
+Boardgame Collection Ranking 
