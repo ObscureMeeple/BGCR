@@ -1188,7 +1188,7 @@ function ForSalePanel({games,collection,overrides,onOverride}){
 
   function openForm(name){
     const o=ov[name]||{};
-    setForm({price:o.sale_price??'',gmLow:o.sale_gm_low??'',condition:o.sale_condition||'',location:o.sale_location||'',listedOn:o.sale_listed_on||'',listed:!!o.sale_listed,reserved:!!o.sale_reserved,platform:o.sale_platform||'',platformDetail:o.sale_platform_detail||'',damaged:!!o.sale_damaged,damage:Array.isArray(o.sale_damage)?o.sale_damage:[],note:o.sale_note||''});
+    setForm({price:o.sale_price??'',gmLow:o.sale_gm_low??'',condition:o.sale_condition||'',location:o.sale_location||'',listedOn:o.sale_listed_on||'',listed:!!o.sale_listed,reserved:!!o.sale_reserved,platform:o.sale_platform||'',platformDetail:o.sale_platform_detail||'',damaged:!!o.sale_damaged,damage:Array.isArray(o.sale_damage)?o.sale_damage:[],version:o.sale_version||'',note:o.sale_note||''});
     setEditName(name);setShowAdd(false);setAddQ('');
   }
   function startAdd(name){onOverride(name,{for_sale:true});openForm(name);}
@@ -1214,6 +1214,7 @@ function ForSalePanel({games,collection,overrides,onOverride}){
       sale_platform_detail:(form.platformDetail||'').trim(),
       sale_damaged:!!form.damaged,
       sale_damage:Array.isArray(form.damage)?form.damage:[],
+      sale_version:(form.version||'').trim(),
       sale_note:(form.note||'').trim()
     });
     setEditName(null);setForm(null);
@@ -1239,6 +1240,7 @@ function ForSalePanel({games,collection,overrides,onOverride}){
 
     {editName&&form&&<div className="card" style={{marginBottom:14}}>
       <div style={{fontSize:13,color:'#f8f2e6',fontFamily:'"Playfair Display",serif',marginBottom:10}}>{editName}</div>
+      <div style={{marginBottom:8}}><label className="lbl">Version <span style={{textTransform:'none',color:'#857a62'}}>(free text — what a buyer asks)</span></label><input className="inp" placeholder="e.g. English first edition (2017)" value={form.version} onChange={e=>setForm(p=>({...p,version:e.target.value}))}/></div>
       <div style={{display:'flex',gap:8,marginBottom:8}}>
         <div style={{flex:1}}><label className="lbl">Price €</label><input className="inp" inputMode="decimal" placeholder="e.g. 35" value={form.price} onChange={e=>setForm(p=>({...p,price:e.target.value}))}/></div>
         <div style={{flex:1}}><label className="lbl">GeekMarket low €</label><input className="inp" inputMode="decimal" placeholder="manual" value={form.gmLow} onChange={e=>setForm(p=>({...p,gmLow:e.target.value}))}/></div>
@@ -1266,7 +1268,7 @@ function ForSalePanel({games,collection,overrides,onOverride}){
       return(<div key={item.name} style={{background:'#1a1814',border:'1px solid #2e2b24',borderLeft:`3px solid ${bc}`,borderRadius:4,padding:'10px 12px',marginBottom:6,opacity:sold?0.7:1}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
           <div style={{flex:1,minWidth:0}}>
-            <div className="gname">{item.name}</div>
+            <div className="gname">{item.name}</div>{item.sale_version&&<div style={{fontSize:10,color:'#beb49c',marginTop:2,fontStyle:'italic'}}>{item.sale_version}</div>}
             <div style={{display:'flex',gap:8,alignItems:'baseline',marginTop:3,flexWrap:'wrap'}}>
               <span style={{fontSize:16,color:'#d4a843',fontFamily:'"Playfair Display",serif'}}>{money(item.sale_price)}</span>
               {(item.sale_gm_low!==''&&item.sale_gm_low!==undefined)&&<span style={{fontSize:9,color:'#9b917a'}}>GM low {money(item.sale_gm_low)}</span>}
